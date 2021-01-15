@@ -1,4 +1,4 @@
-import sys
+import sys, subprocess
 sys.path.append('../')
 from pycore.tikzeng import *
 from pycore.blocks import *
@@ -30,7 +30,7 @@ arch = [
 
     # ======== THIRD LEVEL ========
     # ds_1
-    to_Conv("ds_1", '', 4, offset="(3,0,0)", to="(ri_1-east)", height=16, depth=16, width=4, caption="Down Conv.+ ResInc"),
+    to_Conv("ds_1", '', 4, offset="(1.5,0,0)", to="(ri_1-east)", height=16, depth=16, width=4, caption="Down Conv.+ ResInc"),
     to_connection("ri_1", "ds_1"),
 
     # ri_2
@@ -87,31 +87,31 @@ arch = [
 
     # ======== FIRST LEVEL ========
     # us_0
-    to_Copy("us_0_pt1", 'I', 1, offset="(3,0,0)", to="(ri_7-east)", height=64, depth=64, width=1, caption="Copy+Conv."),
+    to_Copy("us_0_pt1", 'I', 1, offset="(2.2,0,0)", to="(ri_7-east)", height=64, depth=64, width=1, caption="Copy+Conv."),
     to_connection("ri_7", "us_0_pt1"),
     to_skip("ri_0", "us_0_pt1", pos=1.1),
     to_Conv("us_0_pt2", 'I', 1, offset="(0,0,0)", to="(us_0_pt1-east)", height=64, depth=64, width=1),
     # ri_8
-    to_ConvResInc("ri_8", 'I', 2, offset="(3,0,0)", to="(us_0_pt2-east)", height=64, depth=64, width=2, caption="ResInc"),
+    to_ConvResInc("ri_8", 'I', 2, offset="(2.2,0,0)", to="(us_0_pt2-east)", height=64, depth=64, width=2, caption="ResInc"),
     to_connection("us_0_pt2", "ri_8"),
 
     # conv9_1x1
-    to_ConvWest("conv9_1x1", 'I', 1, offset="(3,0,0)", to="(ri_8-east)", height=64, depth=64, width=1, caption= "Conv.+Copy"),
+    to_ConvWest("conv9_1x1", 'I', 1, offset="(2.2,0,0)", to="(ri_8-east)", height=64, depth=64, width=1, caption= "Conv.+Copy"),
     to_connection("ri_8", "conv9_1x1"),
 
     to_CopyEast("us_0_pt1", 'I', 1, offset="(0,0,0)", to="(conv9_1x1-east)", height=64, depth=64, width=1),
     to_skip("rn_0", "us_0_pt1", pos=1.25),
 
     # rn_10
-    to_ConvRes("rn_10", 'I', n_filer=2, offset="(3,0,0)", to="(conv9_1x1-east)", height=64, depth=64, width=2, caption="ResNet"),
+    to_ConvRes("rn_10", 'I', n_filer=2, offset="(2.2,0,0)", to="(conv9_1x1-east)", height=64, depth=64, width=2, caption="ResNet"),
     to_connection("us_0_pt1", "rn_10"),
 
     # dropout
 
-    to_Conv("dropout", 'I', 1, offset="(3,0,0)", to="(rn_10-east)", height=64, depth=64, width=1, caption="Dropout"),
+    to_Conv("dropout", 'I', 1, offset="(2.2,0,0)", to="(rn_10-east)", height=64, depth=64, width=1, caption="Dropout"),
     to_connection("rn_10", "dropout"),
 
-    misc_input('output', '', n_filer=1, offset="(3,0,0)", to="(dropout-east)", height=64, depth=64, width=1, caption="Output"),
+    misc_input('output', '', n_filer=1, offset="(2.2,0,0)", to="(dropout-east)", height=64, depth=64, width=1, caption="Output"),
     to_connection("dropout", "output"),
 
     to_end()
@@ -120,6 +120,10 @@ arch = [
 def main():
     namefile = os.path.splitext(sys.argv[0])[0]
     to_generate(arch, namefile + '.tex' )
+    pdflatex_exe = 'pdflatex'
+    if os.name == 'nt':
+        pdflatex_exe+'.exe'
+    subprocess.Popen(pdflatex_exe + ' ' + namefile + '.tex', shell=True).wait()
 
 if __name__ == '__main__':
     main()
