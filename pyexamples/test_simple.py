@@ -19,7 +19,7 @@ arch = [
     ]
 
 def main():
-    namefile = str(sys.argv[0]).split('.')[0]
+    namefile = os.path.splitext(sys.argv[0])[0]
     to_generate(arch, namefile + '.tex' )
 
 if __name__ == '__main__':
