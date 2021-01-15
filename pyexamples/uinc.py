@@ -120,10 +120,7 @@ arch = [
 def main():
     namefile = os.path.splitext(sys.argv[0])[0]
     to_generate(arch, namefile + '.tex' )
-    pdflatex_exe = 'pdflatex'
-    if os.name == 'nt':
-        pdflatex_exe+'.exe'
-    subprocess.Popen(pdflatex_exe + ' ' + namefile + '.tex', shell=True).wait()
+    compile_pdf(namefile)
 
 if __name__ == '__main__':
     main()

@@ -46,6 +46,7 @@ arch = [
 def main():
     namefile = os.path.splitext(sys.argv[0])[0]
     to_generate(arch, namefile + '.tex' )
+    compile_pdf(namefile)
 
 if __name__ == '__main__':
     main()
