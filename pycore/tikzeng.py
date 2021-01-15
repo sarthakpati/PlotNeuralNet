@@ -1,4 +1,4 @@
-import os
+import os, subprocess
 
 
 def to_head(projectpath):
@@ -359,3 +359,9 @@ def to_generate(arch, pathname="file.tex"):
         for c in arch:
             print(c)
             f.write(c)
+
+def compile_pdf(namefile):
+    pdflatex_exe = 'pdflatex'
+    if os.name == 'nt':
+        pdflatex_exe+'.exe'
+    subprocess.Popen(pdflatex_exe + ' ' + namefile + '.tex', shell=True).wait()
