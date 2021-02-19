@@ -15,7 +15,7 @@ arch = [
     to_connection("input", "conv0_1x1"),
 
     # rn_0
-    to_ConvRes("rn_0", 'I', n_filer=1, offset="(1.5,0,0)", to="(conv0_1x1-east)", height=64, depth=64, width=1, caption="ResNet"),
+    to_ConvRes("rn_0", 'I', n_filer=1, offset="(1.5,0,0)", to="(conv0_1x1-east)", height=64, depth=64, width=1, caption="Residual"),
     to_connection("conv0_1x1", "rn_0"),
     # ri_0
     to_ConvResInc("ri_0", 'I', n_filer=1, offset="(1.5,0,0)", to="(rn_0-east)", height=64, depth=64, width=1, caption="ResInc"),
@@ -103,7 +103,7 @@ arch = [
     to_skip("rn_0", "us_0_pt1", pos=1.25),
 
     # rn_10
-    to_ConvRes("rn_10", 'I', n_filer=2, offset="(2.2,0,0)", to="(conv9_1x1-east)", height=64, depth=64, width=2, caption="ResNet"),
+    to_ConvRes("rn_10", 'I', n_filer=2, offset="(2.2,0,0)", to="(conv9_1x1-east)", height=64, depth=64, width=2, caption="Residual"),
     to_connection("us_0_pt1", "rn_10"),
 
     # dropout
